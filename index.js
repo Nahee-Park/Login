@@ -1,8 +1,9 @@
 const express = require("express");
 const app = express();
-const port = 8080;
+const port = 5000;
 const { User } = require("./models/User");
 const mongoose = require("mongoose");
+const config = require("./config/key");
 
 //application/x-www-form-urlencoded  이렇게 생긴 데이터 분석해서 적용
 app.use(express.urlencoded({ extended: true }));
@@ -11,21 +12,18 @@ app.use(express.json());
 
 // 몽고 디비와 연결해줌
 mongoose
-  .connect(
-    "mongodb+srv://naheepark:13243543qq@react-node-login.b97mu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-    {
-      //   에러 방지 위해서
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true,
-      useFindAndModify: false,
-    }
-  )
+  .connect(config.mongoURI, {
+    //   에러 방지 위해서
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+  })
   .then(() => console.log("MongoDB Connected..."))
   .catch((err) => console.log(err));
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.send("Hello World! heee");
 });
 
 app.post("/register", (req, res) => {
